@@ -19,6 +19,7 @@ var pageStart = function () {
     // Five day forecast element / current weather element
     var fiveDayForecast = document.getElementById ("five-day-box");
     var currentWeather = document.getElementById ("current-weather");
+    var userSearchHistory = JSON.parse(localStorage.getItem("search")) || [];
 
     // Get the API key and assign it a variable.
     var openWeatherAPIKey = "ab616e87112839dadb80a8304e9cff29";
