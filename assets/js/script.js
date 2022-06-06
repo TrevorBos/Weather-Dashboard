@@ -25,6 +25,16 @@ var pageStart = function () {
     var openWeatherAPIKey = "ab616e87112839dadb80a8304e9cff29";
 
     // Get the current weather from open weather api
+    var findWeatherForChosenCity (cityName) {
+        var cityUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=" + openWeatherAPIKey;
+        fetch(cityUrl).then(function(response){
+            currentWeather.classList.remove("d-none");
+
+            //Display the current weather
+            var currentDate = new Date(response.formData.dt * 1000);
+            
+        })
+    }
 
     // Get the 5 day forecast for the specific city entered
 
