@@ -70,21 +70,51 @@ var pageStart = function () {
         "&cnt=1";
 
       fetch(UVIndexUrl).then(function (response) {
-          var UVIndex = document.createElement("span");
+        var UVIndex = document.createElement("span");
 
-          //set the colors based on severity
-          if (response.data[0].value < 4) {
-              UVIndex.setAttribute("class", "badge badge-success");
-          } else if (response.data[0].value < 8) {
-              UVIndex.setAttribute("class", "badge badge-warning");
-          }else {
-              UVIndex.setAttribute("class", "badge badge-danger");
-          }
+        //set the colors based on severity
+        if (response.data[0].value < 4) {
+          UVIndex.setAttribute("class", "badge badge-success");
+        } else if (response.data[0].value < 8) {
+          UVIndex.setAttribute("class", "badge badge-warning");
+        } else {
+          UVIndex.setAttribute("class", "badge badge-danger");
+        }
+        UVIndex.innerHTML = response.data[0].value;
+        currentUVIndex.innerHTML = "UV Index: ";
+        currentUVIndex.append(UVIndex);
+      });
+
+      // Get the 5 day forecast for the specific city entered
+
+      var cityInfo = response.data.id;
+      var fiveDayUrl =
+        "https://api.openweathermap.org/data/2.5/forecast?id=" +
+        cityInfo +
+        "&appid=" +
+        openWeatherAPIKey;
+
+      fetch(fiveDayUrl).then(function (response) {
+        fiveDayForecast.classList.remove("d-none");
+
+        //   Display forecast for the next five days
+        var forecast = document.querySelectorAll(".forecast");
+        for (i = 0; i < forecast.length; i++) {
+            forecast[i].innerHTML = "";
+            var forecastIndex = i * 8 + 4;
+            var forecastDate = new Date(response.data.list[forecastIndex].dt * 1000);
+            var forecastMonth = forecastDate.getMonth() + 1;
+            var forecastDay = forecastDate.getDate();
+            var forecastYear = forecastDate.getFullYear();
+            var forecastDateElement = document.createElement("p");
+
+            forecastDateElement.setAttribute("class", "mt-3 mb-0 forecast-date");
+            forecastDateElement.innerHTML = forecastMonth + "/" + forecastDay + "/" + forecastYear;
+            forecast[i].append(forecastDateElement);
+        }
       });
     });
   };
-
-  // Get the 5 day forecast for the specific city entered
 
   // Find the history from local storage
 
