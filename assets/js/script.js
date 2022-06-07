@@ -30,11 +30,13 @@ var pageStart = function () {
       cityName +
       "&appid=" +
       openWeatherAPIKey;
-    fetch(cityUrl).then(function (response) {
+    //axios is a form of node.JS used from a tutorial from youtube to get working properly.
+    axios.get(cityUrl)
+    .then(function (response) {
       currentWeather.classList.remove("d-none");
 
       //Display the current weather
-      var currentDate = new Date(response.formData.dt * 1000);
+      var currentDate = new Date(response.data.dt * 1000);
       var day = currentDate.getDate();
       var month = currentDate.getMonth() + 1;
       var year = currentDate.getFullYear();
@@ -69,7 +71,7 @@ var pageStart = function () {
         openWeatherAPIKey +
         "&cnt=1";
 
-      fetch(UVIndexUrl).then(function (response) {
+      axios.get(UVIndexUrl).then(function (response) {
         var UVIndex = document.createElement("span");
 
         //set the colors based on severity
@@ -94,7 +96,7 @@ var pageStart = function () {
         "&appid=" +
         openWeatherAPIKey;
 
-      fetch(fiveDayUrl).then(function (response) {
+      axios.get(fiveDayUrl).then(function (response) {
         fiveDayForecast.classList.remove("d-none");
 
         //   Display forecast for the next five days
@@ -164,8 +166,8 @@ var pageStart = function () {
   // Render out the search history
   var displaySearchHistory = function () {
     searchHistory.innerHTML = "";
-    for (var i = 0; i < userSearchHistory.length; i++) {
-      var userHistory = document.createElement("input");
+    for (let i = 0; i < userSearchHistory.length; i++) {
+      const userHistory = document.createElement("input");
       userHistory.setAttribute("type", "text");
       userHistory.setAttribute("readonly", true);
       userHistory.setAttribute("class", "form-control d-block bg-white");
