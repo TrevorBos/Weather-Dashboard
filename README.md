@@ -1,4 +1,4 @@
-# Weather-Dashboard# - Trevor Bos
+# Weather-Dashboard - Trevor Bos
 Challenge 6
 
 ## Purpose
