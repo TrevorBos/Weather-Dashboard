@@ -146,6 +146,9 @@ var pageStart = function () {
   };
 
   // Find the history from local storage
+  searchButton.addEventListener("click", function (){
+      var userSearch = chosenCity.value;
+  })
 
   // Render out the search history
 
