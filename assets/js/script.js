@@ -30,7 +30,9 @@ var pageStart = function () {
       cityName +
       "&appid=" +
       openWeatherAPIKey;
-    //axios is a form of node.JS used from a tutorial from youtube to get working properly.
+
+    //axios is a form of node.JS used from a tutorial from youtube to get working properly. It helps with grabbing the URL
+    //just like fetch does.
     axios.get(cityUrl).then(function (response) {
       currentWeather.classList.remove("d-none");
 
@@ -75,11 +77,11 @@ var pageStart = function () {
 
         //set the colors based on severity
         if (response.data[0].value < 4) {
-          UVIndex.setAttribute("class", "badge badge-success");
+          UVIndex.setAttribute("class", "btn btn-success");
         } else if (response.data[0].value < 8) {
-          UVIndex.setAttribute("class", "badge badge-warning");
+          UVIndex.setAttribute("class", "btn btn-warning");
         } else {
-          UVIndex.setAttribute("class", "badge badge-danger");
+          UVIndex.setAttribute("class", "btn btn-danger");
         }
         UVIndex.innerHTML = response.data[0].value;
         currentUVIndex.innerHTML = "UV Index: ";
