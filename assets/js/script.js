@@ -31,8 +31,7 @@ var pageStart = function () {
       "&appid=" +
       openWeatherAPIKey;
     //axios is a form of node.JS used from a tutorial from youtube to get working properly.
-    axios.get(cityUrl)
-    .then(function (response) {
+    axios.get(cityUrl).then(function (response) {
       currentWeather.classList.remove("d-none");
 
       //Display the current weather
@@ -53,7 +52,7 @@ var pageStart = function () {
         response.data.weather[0].description
       );
       currentTemp.innerHTML =
-        "Temperature: " + response.data.main.temp + " &#176f";
+        "Temperature: " + fixTheTemp(response.data.main.temp) + " &#176f";
       currentHumidity.innerHTML =
         "Humidity: " + response.data.main.humidity + "%";
       currentWindSpeed.innerHTML =
@@ -133,7 +132,9 @@ var pageStart = function () {
 
           var forecastTemperatureElement = document.createElement("p");
           forecastTemperatureElement.innerHTML =
-            "Temp: " + response.data.list[forecastIndex].main.temp + " &#176f";
+            "Temp: " +
+            fixTheTemp(response.data.list[forecastIndex].main.temp) +
+            " &#176f";
           forecast[i].append(forecastTemperatureElement);
 
           var forecastHumidityElement = document.createElement("p");
@@ -155,6 +156,10 @@ var pageStart = function () {
     localStorage.setItem("search", JSON.stringify(userSearchHistory));
     displaySearchHistory();
   });
+
+  function fixTheTemp(tempF) {
+    return Math.floor((tempF - 273.15) * 1.8 + 32);
+  }
 
   // Clear history button functionality
   clearButton.addEventListener("click", function () {
