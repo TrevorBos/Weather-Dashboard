@@ -13,7 +13,7 @@ var pageStart = function () {
   var searchButton = document.getElementById("search-button");
   var clearButton = document.getElementById("clear-history");
   var chosenCityName = document.getElementById("city-name");
-  var searchHistory = document.getElementById("history");
+  var searchHistory = document.getElementById("city-history");
 
   // Five day forecast element / current weather element
   var fiveDayForecast = document.getElementById("five-day-box");
@@ -146,13 +146,42 @@ var pageStart = function () {
   };
 
   // Find the history from local storage
-  searchButton.addEventListener("click", function (){
-      var userSearch = chosenCity.value;
-  })
-
-  // Render out the search history
+  searchButton.addEventListener("click", function () {
+    var userSearch = chosenCity.value;
+    findWeatherForChosenCity(userSearch);
+    userSearchHistory.push(userSearch);
+    localStorage.setItem("search", JSON.stringify(userSearchHistory));
+    displaySearchHistory();
+  });
 
   // Clear history button functionality
+  clearButton.addEventListener("click", function () {
+    localStorage.clear();
+    userSearchHistory = [];
+    displaySearchHistory();
+  });
+
+  // Render out the search history
+  var displaySearchHistory = function () {
+    searchHistory.innerHTML = "";
+    for (var i = 0; i < userSearchHistory.length; i++) {
+      var userHistory = document.createElement("input");
+      userHistory.setAttribute("type", "text");
+      userHistory.setAttribute("readonly", true);
+      userHistory.setAttribute("class", "form-control d-block bg-white");
+      userHistory.setAttribute("value", userSearchHistory[i]);
+      userHistory.addEventListener("click", function () {
+        findWeatherForChosenCity(userHistory.value);
+      });
+      searchHistory.append(userHistory);
+    }
+  };
+
+  displaySearchHistory();
+
+  if (userSearchHistory.length > 0) {
+    findWeatherForChosenCity(userSearchHistory[userSearchHistory.length - 1]);
+  }
 };
 
 pageStart();
